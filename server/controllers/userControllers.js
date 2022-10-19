@@ -7,11 +7,11 @@ export const registerUser = async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 11);
   try {
-    userExist = await User.findOne({ email: email });
-    if (userExist) {
+    const userExists = await User.findOne({ email: email });
+    if (userExists) {
       return res
-        .status(400)
-        .json({ message: "User is already Exist!!, Please Login" });
+        .status(409)
+        .json({ message: "User is already registered!!, Please Login" });
     }
     const createdUser = await User.create({
       firstName,

@@ -3,15 +3,18 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import userRoutes from "./routes/user.js";
 import messageRoutes from "./routes/message.js";
-
-const app = express();
-
-const port = process.env.PORT || 3001;
+import cors from "cors";
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
 
 // specify your middleware here
+const app = express();
 app.use(cors());
 app.use(express.json());
 dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const port = process.env.PORT || 3001;
 // specify your routes here
 app.use("/user", userRoutes);
 app.use("/message", messageRoutes);
@@ -25,6 +28,12 @@ mongoose
   )
   .then(() => console.log("Database connected! 😍☕"))
   .catch((error) => console.log(error, "Database did not connect! ☹️❌"));
+
+// Serve frontend client/build folder
+app.use(express.static(path.join(__dirname, "client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
 
 app.listen(port, () =>
   console.log(`The server is listening on port ${port} ... 🐒`)

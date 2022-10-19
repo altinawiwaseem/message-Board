@@ -14,13 +14,13 @@ const UserSchema = new Schema({
   },
   lastName: String,
   ip: String,
-  hash: {
+  password: {
     type: String,
     required: [true, "the user must have a password"],
     select: false,
   },
   avatar: { type: String, default: generateRobohashAvatar() },
-  dates: { registered: Date, default: Date.now, last_active: Date },
+  dates: { registered: { type: Date, default: Date.now }, last_active: Date },
   messages: Number,
 });
 
