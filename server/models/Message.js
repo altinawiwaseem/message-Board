@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+const { Schema, model } = mongoose;
 
-const MessageSchema = new mongoose.Schema({
+const MessageSchema = new Schema({
   user_id: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -22,6 +23,6 @@ const MessageSchema = new mongoose.Schema({
   deleted: Boolean,
 });
 
-const Message = mongoose.model("message", MessageSchema);
+const Message = model("message", MessageSchema);
 
 export default Message;

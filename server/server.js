@@ -2,15 +2,19 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import userRoutes from "./routes/user.js";
+import messageRoutes from "./routes/message.js";
 
 const app = express();
-app.use(express.json());
-dotenv.config();
+
 const port = process.env.PORT || 3001;
 
 // specify your middleware here
-
+app.use(cors());
+app.use(express.json());
+dotenv.config();
 // specify your routes here
+app.use("/user", userRoutes);
+app.use("/message", messageRoutes);
 
 console.log("Connecting to database. Put the kettle on while you wait... 🫖");
 

@@ -8,7 +8,7 @@ export function generateRobohashAvatar() {
   return `${baseUrl}/${randomString}?set=set${set}`;
 }
 
-export function generateRandomString(size = 21) {
+function generateRandomString(size = 21) {
   return crypto.randomBytes(size).toString("base64").slice(0, size);
 }
 
