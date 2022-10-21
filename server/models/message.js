@@ -12,7 +12,7 @@ const MessageSchema = new Schema({
     required: [true, "the content should not be empty"],
   },
   dates: {
-    created: { type: Date, default: Date.now },
+    created: { type: Date, default: Date.now, last_edited: Date },
   },
   category: {
     type: String,

@@ -9,8 +9,8 @@ const configureJwtStrategy = (passport) => {
     "jwt",
     new JWTStrategy(
       {
-        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-        secretOrKey: process.env.SECRET,
+        jwtFromRequest: (req) => req.cookies["jwt"],
+        secretOrKey: process.env.JWT_SECRET,
       },
       (jwtPayload, done) => {
         return User.findById(jwtPayload.sub)

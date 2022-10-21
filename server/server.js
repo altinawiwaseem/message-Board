@@ -4,14 +4,25 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/user.js";
 import messageRoutes from "./routes/message.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import passport from "passport";
+import configureJwtStrategy from "./passport-config.js";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 
 // specify your middleware here
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.json());
 dotenv.config();
+app.use(cookieParser());
+app.use(passport.initialize());
+configureJwtStrategy(passport);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const port = process.env.PORT || 3001;

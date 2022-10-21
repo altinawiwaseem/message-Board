@@ -1,25 +1,32 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [error, setError] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-
-    await axios.post("http://localhost:5000/user/register", {
-      firstName: formData.get("firstName"),
-      lastName: formData.get("lastName"),
-      email: formData.get("email"),
-      password: formData.get("password"),
-    });
+    try {
+      await axios.post("http://localhost:5000/user/register", {
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName"),
+        email: formData.get("email"),
+        password: formData.get("password"),
+      });
+      setError("");
+      navigate("/login");
+    } catch (error) {
+      setError(error.response.data.message);
+    }
   };
 
   return (
     <>
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
+        {error ? <p>{error}</p> : null}
         <label>
           First name
           <input
