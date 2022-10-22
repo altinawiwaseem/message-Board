@@ -55,3 +55,12 @@ export const loginUser = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const allUsers = await User.find();
+    return res.status(200).json(allUsers);
+  } catch (error) {
+    return res.send(error.message);
+  }
+};

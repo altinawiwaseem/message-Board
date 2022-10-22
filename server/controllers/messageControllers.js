@@ -3,7 +3,7 @@ import Message from "../models/message.js";
 export const createMessage = async (req, res) => {
   try {
     const newMessage = await Message.create({
-      user_id: req.user._id,
+      user: req.user._id,
       content: req.body.message,
       category: "sent",
       deleted: false,
@@ -17,14 +17,16 @@ export const createMessage = async (req, res) => {
 
 export const getAllMessages = async (req, res) => {
   try {
-    const allMessages = await Message.find();
+    const allMessages = await Message.find({ user: req.user._id }).populate(
+      "user"
+    );
 
     if (!allMessages) {
       return res.status(200).json({ message: "No messages yet" });
     }
-    res.status(200).json({ message: allMessages });
+    return res.status(200).json(allMessages);
   } catch (error) {
-    return res.status(404).json({ message: error });
+    return res.send(error.message);
   }
 };
 
@@ -36,7 +38,7 @@ export const updateMessage = async (req, res) => {
       { content: content },
       { new: true }
     );
-    console.log(editedMessage);
+
     if (!editedMessage) return;
 
     return res.status(200).json({ message: editedMessage });
@@ -52,7 +54,6 @@ export const deleteMessage = async (req, res) => {
     const deleteMessage = await Message.findByIdAndUpdate(id, {
       deleted: true,
     });
-    console.log("deleted message", deleteMessage);
 
     return res.status(200).json({ message: deleteMessage });
   } catch (error) {

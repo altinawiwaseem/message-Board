@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const MessageSchema = new Schema({
-  user_id: {
+  user: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
     required: [true, "The message must have a user"],
   },
   content: {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import style from "./Register.module.css";
 
 export default function Register() {
   const [error, setError] = useState("");
@@ -25,7 +26,7 @@ export default function Register() {
   return (
     <>
       <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={style.form}>
         {error ? <p>{error}</p> : null}
         <label>
           First name

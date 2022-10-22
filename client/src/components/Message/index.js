@@ -5,7 +5,6 @@ import List from "./List";
 export default function Message() {
   const [data, setData] = useState("");
   const [edit, setEdit] = useState("");
-  const [del, setDel] = useState("");
   const [input, setInput] = useState("");
 
   const valueRef = useRef("");
@@ -34,11 +33,12 @@ export default function Message() {
 
         return;
       } else if (edit) {
+        if (!input) return;
         await axios.patch(
           "http://localhost:5000/message/update",
           {
             id: edit,
-            content: input,
+            content: input.trim(),
           },
           {
             withCredentials: true,
@@ -46,21 +46,13 @@ export default function Message() {
         );
         setInput("");
         setEdit("");
+        getMessages();
         return;
       }
     } catch (error) {
       console.log(error);
     }
   };
-  /* const deleteMessage = async () => {
-    console.log("first");
-    await axios.patch(
-      "http://localhost:5000/message/delete",
-      { id: del },
-      { withCredentials: true }
-    );
-    setDel("");
-  }; */
 
   const getMessages = async () => {
     const response = await axios.get(
@@ -69,7 +61,8 @@ export default function Message() {
         withCredentials: true,
       }
     );
-    if (response.data.message) setData(response.data.message);
+    console.log(response);
+    if (response.data) setData(response.data);
   };
 
   const handleUpdate = (id, content) => {
@@ -92,7 +85,7 @@ export default function Message() {
 
   useEffect(() => {
     getMessages();
-  }, [input]);
+  }, []);
 
   return (
     <>
@@ -110,6 +103,7 @@ export default function Message() {
                     handleUpdate={handleUpdate}
                     handleDelete={handleDelete}
                   />
+                  <img src={message.user.avatar} alt="user-avatar" />
                 </ul>
               )
           )}
