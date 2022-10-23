@@ -64,3 +64,22 @@ export const getAllUsers = async (req, res) => {
     return res.send(error.message);
   }
 };
+
+/* export const logout = async (req, res, next) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+}; */
+
+/* export const logout = async (req, res, next) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 1 });
+    res.redirect("/");
+  } catch (error) {
+    res.send(error);
+  }
+};
+ */

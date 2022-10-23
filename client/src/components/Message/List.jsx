@@ -3,7 +3,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdOutlineDeleteForever } from "react-icons/md";
 
-function List({ item, handleUpdate, handleDelete }) {
+function AllBlogs({ item, handleUpdate, handleDelete }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const toggle = () => {
     setIsExpanded((s) => !s);
@@ -25,4 +25,4 @@ function List({ item, handleUpdate, handleDelete }) {
   );
 }
 
-export default List;
+export default AllBlogs;

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import style from "./Register.module.css";
 
 export default function Register() {
@@ -25,37 +25,51 @@ export default function Register() {
 
   return (
     <>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit} className={style.form}>
-        {error ? <p>{error}</p> : null}
-        <label>
-          First name
+      <div className={style.formContainer}>
+        <form onSubmit={handleSubmit} className={style.form}>
+          <h1 className={style.h1}>Register</h1>
+          {error ? <p>{error}</p> : null}
           <input
+            placeholder="First name"
+            className={style.input}
             type="text"
             autoComplete="firstName"
             name="firstName"
             required
           />
-        </label>
-        <label>
-          Last name
-          <input type="text" autoComplete="lastName" name="lastName" required />
-        </label>
-        <label>
-          E-mail
-          <input type="email" autoComplete="email" name="email" required />
-        </label>
-        <label>
-          Password
+
           <input
+            placeholder="Last name"
+            className={style.input}
+            type="text"
+            autoComplete="lastName"
+            name="lastName"
+            required
+          />
+          <input
+            placeholder=" E-mail"
+            className={style.input}
+            type="email"
+            autoComplete="email"
+            name="email"
+            required
+          />
+          <input
+            placeholder="Password"
+            className={style.input}
             type="password"
             autoComplete="new-password"
             name="password"
             required
           />
-        </label>
-        <button type="submit">Register</button>
-      </form>
+          <button className={style.button} type="submit">
+            Register
+          </button>
+          <span className={style.navLink}>
+            Already have an account ? <Link to="/login">Login.</Link>
+          </span>
+        </form>
+      </div>
     </>
   );
 }
