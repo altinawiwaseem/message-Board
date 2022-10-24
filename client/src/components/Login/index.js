@@ -1,6 +1,8 @@
+import { Box, Button, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import style from "../Register/Register.module.css";
 
 export default function Login() {
   const [error, setError] = useState("");
@@ -23,29 +25,71 @@ export default function Login() {
       navigate("/message");
     } catch (error) {
       setError(error.response.data.message);
+      console.log(error.response);
     }
   };
 
   return (
-    <>
-      <h1>Login</h1>
-      {error ? <p>{error}</p> : null}
+    <div className={style.formContainer}>
       <form onSubmit={handleLogin}>
-        <label>
-          E-mail
-          <input type="email" autoComplete="email" name="email" required />
-        </label>
-        <label>
-          Password
-          <input
+        <Box
+          width={400}
+          display="flex"
+          flexDirection={"column"}
+          alignItems="center"
+          justifyContent={"center"}
+          boxShadow="10px 10px 20px #888"
+          padding={3}
+          margin="auto"
+          borderRadius={5}
+          gap="1rem"
+          sx={{ background: "#f6f6f6" }}
+        >
+          <Typography variant="h3" textAlign="center">
+            Login
+          </Typography>
+          <Typography color="red" textAlign="center">
+            {error}
+          </Typography>
+          <TextField
+            className={style.input}
+            placeholder=" E-mail"
+            type="email"
+            autoComplete="email"
+            name="email"
+            required
+          />
+          <TextField
+            className={style.input}
+            placeholder="Password"
             type="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             name="password"
             required
           />
-        </label>
-        <button type="submit">Login</button>
+          <Button
+            className={style.button}
+            type="submit"
+            variant="contained"
+            sx={{
+              borderRadius: "0.4rem",
+              padding: "1rem 2rem",
+              marginTop: 3,
+              width: "90%",
+            }}
+          >
+            Login
+          </Button>
+          <Typography marginTop={2}>
+            Don't have an account ?{" "}
+            {
+              <Link className={style.a} variant="contained" to="/register">
+                Register
+              </Link>
+            }
+          </Typography>
+        </Box>
       </form>
-    </>
+    </div>
   );
 }

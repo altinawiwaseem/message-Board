@@ -9,7 +9,6 @@ import style from "./Register.module.css";
 export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,9 +23,8 @@ export default function Register() {
         })
         .then(() => dispatch(authActions.login()))
         .then(navigate("/login"));
-      setError("");
     } catch (error) {
-      setError(error.response.data.message);
+      console.log(error);
     }
   };
 
@@ -46,8 +44,8 @@ export default function Register() {
           gap="1rem"
           sx={{ background: "#f6f6f6" }}
         >
-          <Typography variant="h2" padding={3} textAlign="center">
-            {error ? { error } : null}
+          <Typography variant="h3" textAlign="center">
+            Register
           </Typography>
           <TextField
             className={style.input}
