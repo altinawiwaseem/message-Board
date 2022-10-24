@@ -25,6 +25,7 @@ function Header() {
       sx={{
         background: "#4267b2",
         position: "sticky",
+        height: "10vh",
       }}
     >
       <Toolbar>

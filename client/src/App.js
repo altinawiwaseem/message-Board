@@ -8,6 +8,7 @@ import Users from "./components/Users";
 import Header from "./components/Header/Header";
 import MyMessage from "./components/Message/MyMessage";
 import { useSelector } from "react-redux";
+import Auth from "./components/Auth/Auth";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
@@ -19,9 +20,10 @@ function App() {
       </header>
       <main>
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/df" element={<Homepage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          {/* <Route path="/" element={<Auth />} /> */}
           <Route
             path="/message"
             element={

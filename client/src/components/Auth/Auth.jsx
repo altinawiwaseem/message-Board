@@ -2,25 +2,26 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { authActions } from "../store";
+import { authActions } from "../../store";
 import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
-  const naviagte = useNavigate();
-  const dispath = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [error, setError] = useState("");
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const [isSignup, setIsSignup] = useState(false);
-  const handleChange = (e) => {
+  const [isSignup, setIsSignup] = useState(true);
+  /* const handleChange = (e) => {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-  };
-  const sendRequest = async (type = "login") => {
+  }; */
+  /*  const sendRequest = async (type = "login") => {
     const res = await axios
       .post(`http://localhost:5000/api/user/${type}`, {
         name: inputs.name,
@@ -32,9 +33,48 @@ const Auth = () => {
     const data = await res.data;
     console.log(data);
     return data;
+  }; */
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    try {
+      await axios
+        .post("http://localhost:5000/user/register", {
+          firstName: formData.get("firstName"),
+          lastName: formData.get("lastName"),
+          email: formData.get("email"),
+          password: formData.get("password"),
+        })
+        .then(() => dispatch(authActions.login()))
+        .then(navigate("/message"));
+      setError("");
+    } catch (error) {
+      setError(error.response.data.message);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    try {
+      await axios.post(
+        "http://localhost:5000/user/login",
+        {
+          email: formData.get("email"),
+          password: formData.get("password"),
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setError("");
+      navigate("/message");
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  };
+
+  /*  const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
     if (isSignup) {
@@ -48,7 +88,7 @@ const Auth = () => {
         .then(() => dispath(authActions.login()))
         .then(() => naviagte("/blogs"));
     }
-  };
+  }; */
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -68,29 +108,37 @@ const Auth = () => {
             {isSignup ? "Signup" : "Login"}
           </Typography>
           {isSignup && (
-            <TextField
-              name="name"
-              onChange={handleChange}
-              value={inputs.name}
-              placeholder="Name"
-              margin="normal"
-            />
-          )}{" "}
+            <>
+              <TextField
+                placeholder="First name"
+                type="text"
+                autoComplete="firstName"
+                name="firstName"
+                required
+              />
+
+              <TextField
+                placeholder="Last name"
+                type="text"
+                autoComplete="lastName"
+                name="lastName"
+                required
+              />
+            </>
+          )}
           <TextField
+            placeholder=" E-mail"
+            type="email"
+            autoComplete="email"
             name="email"
-            onChange={handleChange}
-            value={inputs.email}
-            type={"email"}
-            placeholder="Email"
-            margin="normal"
+            required
           />
           <TextField
-            name="password"
-            onChange={handleChange}
-            value={inputs.password}
-            type={"password"}
             placeholder="Password"
-            margin="normal"
+            type="password"
+            autoComplete="new-password"
+            name="password"
+            required
           />
           <Button
             type="submit"
@@ -104,7 +152,7 @@ const Auth = () => {
             onClick={() => setIsSignup(!isSignup)}
             sx={{ borderRadius: 3, marginTop: 3 }}
           >
-            Change To {isSignup ? "Login" : "Signup"}
+            Change To {isSignup ? navigate("/login") : "Signup"}
           </Button>
         </Box>
       </form>
