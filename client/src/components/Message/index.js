@@ -159,7 +159,7 @@ export default function Message() {
         </div>
 
         <form className={style.form} onSubmit={handleMessage}>
-          <TextField
+          <input
             className={style.input}
             onChange={handleChange}
             placeholder="What's on your mind?"
