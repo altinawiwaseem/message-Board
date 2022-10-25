@@ -2,13 +2,13 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { authActions } from "../../store";
+/* import { useDispatch } from "react-redux";
+import { authActions } from "../../store"; */
 import style from "./Register.module.css";
 
 export default function Register() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  /* const dispatch = useDispatch(); */
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,7 +21,7 @@ export default function Register() {
           email: formData.get("email"),
           password: formData.get("password"),
         })
-        .then(() => dispatch(authActions.login()))
+        /* .then(() => dispatch(authActions.login())) */
         .then(navigate("/login"));
     } catch (error) {
       console.log(error);
@@ -30,9 +30,9 @@ export default function Register() {
 
   return (
     <div className={style.formContainer}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={style.form}>
         <Box
-          width={400}
+          maxWidth={400}
           display="flex"
           flexDirection={"column"}
           alignItems="center"
@@ -42,7 +42,7 @@ export default function Register() {
           margin="auto"
           borderRadius={5}
           gap="1rem"
-          sx={{ background: "#f6f6f6" }}
+          sx={{ background: "#f6f6f6", height: "" }}
         >
           <Typography variant="h3" textAlign="center">
             Register

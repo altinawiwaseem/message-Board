@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import List from "./List";
 import style from "./Message.module.css";
 import { Box } from "@mui/system";
-import { Tab, Tabs } from "@mui/material";
+import { Button, Tab, Tabs, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import AllBlogs from "./List";
+import SendIcon from "@material-ui/icons/Send";
 
 export default function Message() {
   const [data, setData] = useState("");
@@ -13,7 +13,6 @@ export default function Message() {
   const [edit, setEdit] = useState("");
   const [input, setInput] = useState("");
   const [val, setVal] = useState(0);
-
   const valueRef = useRef("");
 
   const handleChange = (e) => {
@@ -54,6 +53,7 @@ export default function Message() {
         setInput("");
         setEdit("");
         getMessages();
+        getUserMessages();
         return;
       }
     } catch (error) {
@@ -79,7 +79,7 @@ export default function Message() {
         withCredentials: true,
       }
     );
-    console.log(response);
+
     if (response.data) setData(response.data);
   };
 
@@ -96,6 +96,7 @@ export default function Message() {
         { withCredentials: true }
       );
       getMessages();
+      getUserMessages();
     } catch (error) {
       console.log("error deleting", error);
     }
@@ -103,47 +104,77 @@ export default function Message() {
 
   useEffect(() => {
     getMessages();
+    getUserMessages();
   }, []);
 
   return (
     <>
       <Box display="flex" justifyContent={"center"}>
         <Tabs value={val} onChange={(e, val) => setVal(val)}>
-          <Tab LinkComponent={Link} to="/allBlogs" label="All Blogs" />
-          <Tab LinkComponent={Link} to="/myblogs" label="My Blogs" />
+          <Tab LinkComponent={Link} to="/message" label="All Blogs" />
+          <Tab label="My Blogs" />
         </Tabs>
       </Box>
 
       <div className={style.mainContainer}>
         <div className={style.dataContainer}>
-          {data &&
-            data?.map(
-              (message) =>
-                message.deleted === false && (
-                  <ul key={message._id} id={message._id}>
-                    <AllBlogs
-                      item={message}
-                      id={message._id}
-                      handleUpdate={handleUpdate}
-                      handleDelete={handleDelete}
-                    />
-                    <img src={message.user.avatar} alt="user-avatar" />
-                  </ul>
+          {data && val === 0
+            ? data
+                ?.slice()
+                .reverse()
+                .map(
+                  (message) =>
+                    message.deleted === false && (
+                      <ul key={message._id} id={message._id}>
+                        <AllBlogs
+                          item={message}
+                          id={message._id}
+                          handleUpdate={handleUpdate}
+                          handleDelete={handleDelete}
+                        />
+                      </ul>
+                    )
                 )
-            )}
+            : userData &&
+              userData?.map(
+                (message) =>
+                  message.deleted === false && (
+                    <ul key={message._id} id={message._id}>
+                      <AllBlogs
+                        item={message}
+                        id={message._id}
+                        handleUpdate={handleUpdate}
+                        handleDelete={handleDelete}
+                      />
+                    </ul>
+                  )
+              )}
         </div>
 
-        <form onSubmit={handleMessage}>
-          <input
+        <form className={style.form} onSubmit={handleMessage}>
+          <TextField
+            className={style.input}
             onChange={handleChange}
+            placeholder="What's on your mind?"
             type="text"
             name="message"
-            placeholder={"Enter a message"}
             ref={valueRef}
             value={input}
             autoFocus
           />
-          <button type="submit">Send</button>
+
+          <Button
+            endIcon={<SendIcon />}
+            className={style.button}
+            type="submit"
+            variant="contained"
+            sx={{
+              borderRadius: "0.4rem",
+              padding: "1rem 2rem",
+            }}
+          >
+            send
+          </Button>
         </form>
       </div>
     </>

@@ -1,72 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppBar, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import style from "./Header.module.css";
 
 function Header() {
-  const [value, setValue] = useState("");
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   console.log(isLoggedIn);
 
-  /* const handleLogout = async () => {
+  useEffect(() => {
+    const data = localStorage.getItem("show");
+    if (data !== null) setIsLoggedIn(JSON.parse(data));
+  }, []);
+
+  const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:5000/user/logout");
-      console.log("first");
+      await axios
+        .get("http://localhost:5000/user/logout", {
+          withCredentials: true,
+        })
+        .then(() => {
+          localStorage.setItem("show", JSON.stringify(false));
+        });
     } catch (error) {
       console.log(error);
     }
-  }; */
+  };
 
   return (
-    <AppBar
-      sx={{
-        background: "#4267b2",
-        position: "sticky",
-        height: "10vh",
-      }}
-    >
-      <Toolbar>
-        <Box
-          component="img"
-          sx={{
-            height: 32,
-            marginRight: 1,
-          }}
-          alt="Your logo."
-          src={logo}
-        />
-        <Typography variant="h4" sx={{ color: "white" }}>
-          Message Board
-        </Typography>
+    <div className={style.mainHeader}>
+      <div className={style.headerLeft}>
+        <img alt="logo." src={logo} />
+        <h1>Message Board</h1>
+      </div>
 
-        <Box display="flex" marginLeft="auto">
-          {!isLoggedIn && (
-            <>
-              <Button
-                LinkComponent={Link}
-                to="/login"
-                variant="contained"
-                sx={{ color: "white", margin: 1, borderRadius: 10 }}
-              >
-                Login
-              </Button>
-            </>
-          )}
-          {isLoggedIn && (
-            <Button
-              /*  onClick={handleLogout} */
-              variant="contained"
-              sx={{ color: "white", margin: 1, borderRadius: 10 }}
-            >
+      <div>
+        {!isLoggedIn && (
+          <Link to="/login">
+            <button className={style.button}>Login</button>
+          </Link>
+        )}
+        {isLoggedIn && (
+          <Link to="/">
+            <button className={style.button} onClick={handleLogout}>
               Logout
-            </Button>
-          )}
-        </Box>
-      </Toolbar>
-    </AppBar>
+            </button>
+          </Link>
+        )}
+      </div>
+    </div>
   );
 }
 

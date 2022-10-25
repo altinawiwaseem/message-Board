@@ -177,3 +177,65 @@ export default function Message() {
       setError(error.response.data.message);
     }
   }; */
+  
+  
+  interface ExpandMoreProps extends IconButtonProps {
+    expand: boolean;
+  }
+  
+  const ExpandMore = styled((props: ExpandMoreProps) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
+  
+  export default function RecipeReviewCard() {
+    const [expanded, setExpanded] = React.useState(false);
+  
+    const handleExpandClick = () => {
+      setExpanded(!expanded);
+    };
+  
+    return (
+      <Card sx={{ maxWidth: 345 }}>
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+              {message.user.avatar}
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          
+          subheader={Date.parse({item.date.created})}
+        />
+       
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+           {item.content}
+          </Typography>
+        </CardContent>
+       
+        
+      </Card>
+    );
+  }
+  
+  <li>
+        {item.content}
+        <BsThreeDotsVertical onClick={toggle} />
+        {isExpanded && (
+          <React.Fragment>
+            <AiFillEdit onClick={() => handleUpdate(item._id, item.content)} />
+            <MdOutlineDeleteForever onClick={() => handleDelete(item._id)} />
+          </React.Fragment>
+        )}
+      </li>

@@ -8,7 +8,7 @@ function Users() {
     const response = await axios.get("http://localhost:5000/user/allUser", {
       withCredentials: true,
     });
-    console.log(response);
+
     if (response.data) setData(response.data);
   };
   useEffect(() => {

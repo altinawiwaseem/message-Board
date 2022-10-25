@@ -7,25 +7,31 @@ import style from "../Register/Register.module.css";
 export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
   const handleLogin = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     try {
-      await axios.post(
-        "http://localhost:5000/user/login",
-        {
-          email: formData.get("email"),
-          password: formData.get("password"),
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      await axios
+        .post(
+          "http://localhost:5000/user/login",
+          {
+            email: formData.get("email"),
+            password: formData.get("password"),
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then(() => {
+          localStorage.setItem("show", JSON.stringify(true));
+        });
+
       setError("");
       navigate("/message");
     } catch (error) {
-      setError(error.response.data.message);
-      console.log(error.response);
+      console.log(error);
+      setError(" The email address or password is incorrect ");
     }
   };
 
@@ -83,7 +89,7 @@ export default function Login() {
           <Typography marginTop={2}>
             Don't have an account ?{" "}
             {
-              <Link className={style.a} variant="contained" to="/register">
+              <Link className={style.a} variant="contained" to="/">
                 Register
               </Link>
             }

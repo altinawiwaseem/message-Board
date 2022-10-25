@@ -34,9 +34,7 @@ export const loginUser = async (req, res) => {
     }
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
-      return res
-        .status(400)
-        .json({ message: "The email address or password is incorrect" });
+      return res.status(400).json({ message: " user not found" });
     }
 
     const checkPassword = await bcrypt.compare(password, user.password);
@@ -67,21 +65,27 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-/* export const logout = async (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/");
-  });
-}; */
+export const logout = async (req, res, next) => {
+  try {
+    res
+      .clearCookie("jwt", {
+        httpOnly: true,
+        secure: false,
+        sameSite: false,
+      })
+      .send("User logged out");
+    //res.redirect("/");
+  } catch (error) {
+    res.send(error);
+  }
+};
 
 /* export const logout = async (req, res, next) => {
   try {
-    res.cookie("jwt", "", { maxAge: 1 });
-    res.redirect("/");
+    res.clearCookie("jwt");
+    res.send("User Logged OUt");
   } catch (error) {
-    res.send(error);
+    res.send(error.message);
   }
 };
  */

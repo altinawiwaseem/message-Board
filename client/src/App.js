@@ -9,10 +9,9 @@ import Header from "./components/Header/Header";
 import MyMessage from "./components/Message/MyMessage";
 import { useSelector } from "react-redux";
 import Auth from "./components/Auth/Auth";
+import { useState, useEffect } from "react";
 
 function App() {
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  console.log(isLoggedIn);
   return (
     <div className="App">
       <header>
@@ -20,17 +19,14 @@ function App() {
       </header>
       <main>
         <Routes>
-          <Route path="/df" element={<Homepage />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/" element={<Auth />} /> */}
+
           <Route
             path="/message"
             element={
               <>
                 <Message />
-                <Users />
-                <MyMessage />
               </>
             }
           />
