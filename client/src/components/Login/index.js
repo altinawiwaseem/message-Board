@@ -23,6 +23,7 @@ export default function Login() {
             withCredentials: true,
           }
         )
+        .then((data) => localStorage.setItem("userId", data.data))
         .then(() => {
           localStorage.setItem("show", JSON.stringify(true));
         });

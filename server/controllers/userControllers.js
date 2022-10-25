@@ -40,6 +40,7 @@ export const loginUser = async (req, res) => {
     const checkPassword = await bcrypt.compare(password, user.password);
     if (checkPassword) {
       const token = await generateToken(user);
+
       return res
         .status(200)
         .cookie("jwt", token, {
@@ -47,12 +48,12 @@ export const loginUser = async (req, res) => {
           secure: false,
           sameSite: false,
         })
-        .json({ message: "You are authenticated, Welcome" });
+        .json(user._id);
     } else {
       return res.status(400).json({ message: "No access granted" });
     }
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.json({ message: error.message });
   }
 };
 
@@ -79,13 +80,3 @@ export const logout = async (req, res, next) => {
     res.send(error);
   }
 };
-
-/* export const logout = async (req, res, next) => {
-  try {
-    res.clearCookie("jwt");
-    res.send("User Logged OUt");
-  } catch (error) {
-    res.send(error.message);
-  }
-};
- */

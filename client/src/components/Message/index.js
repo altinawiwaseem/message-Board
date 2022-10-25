@@ -4,7 +4,7 @@ import style from "./Message.module.css";
 import { Box } from "@mui/system";
 import { Button, Tab, Tabs, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
-import AllBlogs from "./List";
+import Blogs from "./List";
 import SendIcon from "@material-ui/icons/Send";
 
 export default function Message() {
@@ -14,7 +14,8 @@ export default function Message() {
   const [input, setInput] = useState("");
   const [val, setVal] = useState(0);
   const valueRef = useRef("");
-
+  console.log("data", data);
+  console.log("userData", userData);
   const handleChange = (e) => {
     setInput(e.target.value);
   };
@@ -126,7 +127,10 @@ export default function Message() {
                   (message) =>
                     message.deleted === false && (
                       <ul key={message._id} id={message._id}>
-                        <AllBlogs
+                        <Blogs
+                          isUser={
+                            localStorage.getItem("userId") === message.user._id
+                          }
                           item={message}
                           id={message._id}
                           handleUpdate={handleUpdate}
@@ -140,7 +144,10 @@ export default function Message() {
                 (message) =>
                   message.deleted === false && (
                     <ul key={message._id} id={message._id}>
-                      <AllBlogs
+                      <Blogs
+                        isUser={
+                          localStorage.getItem("userId") === message.user._id
+                        }
                         item={message}
                         id={message._id}
                         handleUpdate={handleUpdate}
