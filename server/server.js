@@ -18,7 +18,13 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
+
+app.use(
+  express.json({
+    extended: true,
+    limit: "5mb",
+  })
+);
 dotenv.config();
 app.use(cookieParser());
 app.use(passport.initialize());

@@ -8,17 +8,10 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-
-import React, { useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
-import { MdOutlineDeleteForever } from "react-icons/md";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 function AllBlogs({ item, handleUpdate, handleDelete, isUser }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const toggle = () => {
-    setIsExpanded((s) => !s);
-  };
-
   return (
     item && (
       <Card
@@ -32,13 +25,14 @@ function AllBlogs({ item, handleUpdate, handleDelete, isUser }) {
       >
         {isUser && (
           <Box display="flex">
-            <IconButton sx={{ marginLeft: "auto" }}>
-              <AiFillEdit
-                onClick={() => handleUpdate(item._id, item.content)}
-              />
+            <IconButton
+              sx={{ marginLeft: "auto" }}
+              onClick={() => handleUpdate(item._id, item.content)}
+            >
+              <BorderColorIcon />
             </IconButton>
-            <IconButton>
-              <MdOutlineDeleteForever onClick={() => handleDelete(item._id)} />
+            <IconButton onClick={() => handleDelete(item._id)}>
+              <DeleteForeverIcon />
             </IconButton>
           </Box>
         )}
@@ -48,7 +42,14 @@ function AllBlogs({ item, handleUpdate, handleDelete, isUser }) {
         >
           {" "}
         </CardHeader>
-
+        {item.image && (
+          <CardMedia
+            component="img"
+            height="194"
+            image={item.image}
+            alt="img"
+          />
+        )}
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             <b>{item.user.firstName}</b>: {item.content}

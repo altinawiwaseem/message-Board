@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { AppBar, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import React, { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import style from "./Header.module.css";
+import { UserContext } from "../Context/UserContext";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  console.log(isLoggedIn);
+  const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("show"));
+  /* const {  } = useContext(UserContext); */
 
   useEffect(() => {
-    const data = localStorage.getItem("show");
-    if (data !== null) setIsLoggedIn(JSON.parse(data));
-  }, []);
+    setIsLoggedIn(localStorage.getItem("show"));
+  }, [location]);
 
   const handleLogout = async () => {
     try {
@@ -22,7 +22,7 @@ function Header() {
           withCredentials: true,
         })
         .then(() => {
-          localStorage.setItem("show", JSON.stringify(false));
+          setIsLoggedIn(false);
         });
     } catch (error) {
       console.log(error);

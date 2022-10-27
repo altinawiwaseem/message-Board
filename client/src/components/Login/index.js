@@ -1,39 +1,15 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import axios from "axios";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { UserContext } from "../Context/UserContext";
 import style from "../Register/Register.module.css";
 
 export default function Login() {
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-
+  const { userData, error } = useContext(UserContext);
   const handleLogin = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    try {
-      await axios
-        .post(
-          "http://localhost:5000/user/login",
-          {
-            email: formData.get("email"),
-            password: formData.get("password"),
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((data) => localStorage.setItem("userId", data.data))
-        .then(() => {
-          localStorage.setItem("show", JSON.stringify(true));
-        });
-
-      setError("");
-      navigate("/message");
-    } catch (error) {
-      console.log(error);
-      setError(" The email address or password is incorrect ");
-    }
+    userData(formData);
   };
 
   return (

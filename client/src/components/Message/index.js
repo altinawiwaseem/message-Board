@@ -1,21 +1,24 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import FileBase64 from "react-file-base64";
 import style from "./Message.module.css";
 import { Box } from "@mui/system";
-import { Button, Tab, Tabs, TextField } from "@mui/material";
+import { Button, IconButton, Tab, Tabs } from "@mui/material";
 import { Link } from "react-router-dom";
 import Blogs from "./List";
 import SendIcon from "@material-ui/icons/Send";
+import PhotoCamera from "@material-ui/icons/PhotoCamera";
 
 export default function Message() {
+  const [image, setImage] = useState({ image: "" });
   const [data, setData] = useState("");
   const [userData, setUserData] = useState("");
   const [edit, setEdit] = useState("");
   const [input, setInput] = useState("");
   const [val, setVal] = useState(0);
   const valueRef = useRef("");
-  console.log("data", data);
-  console.log("userData", userData);
+
+  /* console.log("userData", userData); */
   const handleChange = (e) => {
     setInput(e.target.value);
   };
@@ -30,6 +33,7 @@ export default function Message() {
           "http://localhost:5000/message/create",
           {
             message: formData.get("message").trim(),
+            image: image,
           },
           {
             withCredentials: true,
@@ -37,7 +41,8 @@ export default function Message() {
         );
         getMessages();
         setInput("");
-
+        getUserMessages();
+        setImage("");
         return;
       } else if (edit) {
         if (!input) return;
@@ -69,7 +74,7 @@ export default function Message() {
         withCredentials: true,
       }
     );
-    console.log(response);
+
     if (response.data) setUserData(response.data);
   };
 
@@ -140,22 +145,25 @@ export default function Message() {
                     )
                 )
             : userData &&
-              userData?.map(
-                (message) =>
-                  message.deleted === false && (
-                    <ul key={message._id} id={message._id}>
-                      <Blogs
-                        isUser={
-                          localStorage.getItem("userId") === message.user._id
-                        }
-                        item={message}
-                        id={message._id}
-                        handleUpdate={handleUpdate}
-                        handleDelete={handleDelete}
-                      />
-                    </ul>
-                  )
-              )}
+              userData
+                ?.slice()
+                .reverse()
+                .map(
+                  (message) =>
+                    message.deleted === false && (
+                      <ul key={message._id} id={message._id}>
+                        <Blogs
+                          isUser={
+                            localStorage.getItem("userId") === message.user._id
+                          }
+                          item={message}
+                          id={message._id}
+                          handleUpdate={handleUpdate}
+                          handleDelete={handleDelete}
+                        />
+                      </ul>
+                    )
+                )}
         </div>
 
         <form className={style.form} onSubmit={handleMessage}>
@@ -169,6 +177,16 @@ export default function Message() {
             value={input}
             autoFocus
           />
+          <IconButton>
+            <label className={style.fileBaseIcon}>
+              <PhotoCamera htmlFor="file" />
+              <FileBase64
+                type="file"
+                multilple={false}
+                onDone={({ base64 }) => setImage({ image: base64 })}
+              />
+            </label>
+          </IconButton>
 
           <Button
             endIcon={<SendIcon />}

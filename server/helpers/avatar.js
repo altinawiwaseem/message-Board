@@ -11,9 +11,3 @@ export function generateRobohashAvatar() {
 function generateRandomString(size = 21) {
   return crypto.randomBytes(size).toString("base64").slice(0, size);
 }
-
-/* export default {
-  generateRobohashAvatar,
-  generateRandomString,
-};
- */

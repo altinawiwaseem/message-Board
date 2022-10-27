@@ -7,7 +7,7 @@ export const createMessage = async (req, res) => {
       user: req.user._id,
       title: req.body.title,
       content: req.body.message,
-      image: req.body.image,
+      image: req.body.image.image,
       comment: req.body.comment,
       category: "sent",
       deleted: false,
