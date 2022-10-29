@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import Blogs from "./List";
 import SendIcon from "@material-ui/icons/Send";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
-import { motion, AnimatePresence } from "framer-motion/dist/framer-motion";
+
 export default function Message() {
   const [image, setImage] = useState({ image: "" });
   const [data, setData] = useState("");
