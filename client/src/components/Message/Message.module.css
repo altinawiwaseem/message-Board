@@ -1,34 +1,40 @@
 .mainContainer {
-  height: 80vh;
+  height: 100%;
   width: 100vw;
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: #f6f6f6;
+
+  background: #f0f2f5;
   justify-content: center;
 }
 .dataContainer {
   width: 35%;
   height: 100%;
   overflow-y: scroll;
+  scroll-behavior: smooth;
 }
+
 .dataContainer::-webkit-scrollbar {
   display: none;
 }
 
 .input {
   border-radius: 0.4rem;
-  background-color: #f4f4f4;
+  background-color: #f0f2f5;
   width: 100%;
   font-size: 1rem;
-  border: 2px #4267b2 solid;
+  border: 1px #1976d2 solid;
   height: 100%;
+  outline: 1px #1976d2 solid;
 }
 
 .button:active {
   transform: scale(0.98);
 }
+
 .form {
+  margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -39,4 +45,10 @@
 }
 .fileBaseIcon input[type="file"] {
   display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .form button[type="submit"] {
+    display: none;
+  }
 }

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import Blogs from "./List";
 import SendIcon from "@material-ui/icons/Send";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
-
+import { motion, AnimatePresence } from "framer-motion/dist/framer-motion";
 export default function Message() {
   const [image, setImage] = useState({ image: "" });
   const [data, setData] = useState("");
@@ -18,7 +18,6 @@ export default function Message() {
   const [val, setVal] = useState(0);
   const valueRef = useRef("");
 
-  /* console.log("userData", userData); */
   const handleChange = (e) => {
     setInput(e.target.value);
   };
@@ -115,14 +114,14 @@ export default function Message() {
 
   return (
     <>
-      <Box display="flex" justifyContent={"center"}>
-        <Tabs value={val} onChange={(e, val) => setVal(val)}>
-          <Tab LinkComponent={Link} to="/message" label="All Blogs" />
-          <Tab label="My Blogs" />
-        </Tabs>
-      </Box>
-
       <div className={style.mainContainer}>
+        <Box display="flex" justifyContent={"center"}>
+          <Tabs value={val} onChange={(e, val) => setVal(val)}>
+            <Tab LinkComponent={Link} to="/message" label="All Blogs" />
+            <Tab label="My Blogs" />
+          </Tabs>
+        </Box>
+
         <div className={style.dataContainer}>
           {data && val === 0
             ? data
@@ -189,11 +188,10 @@ export default function Message() {
           </IconButton>
 
           <Button
-            endIcon={<SendIcon />}
-            className={style.button}
+            endIcon={<SendIcon className={style.button} />}
             type="submit"
-            variant="contained"
             sx={{
+              border: "1px #1976d2 solid",
               borderRadius: "0.4rem",
               padding: "1rem 2rem",
             }}

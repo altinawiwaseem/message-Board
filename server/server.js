@@ -22,7 +22,7 @@ app.use(
 app.use(
   express.json({
     extended: true,
-    limit: "5mb",
+    limit: "10mb",
   })
 );
 dotenv.config();
