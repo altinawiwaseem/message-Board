@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion/dist/framer-motion";
+import { motion } from "framer-motion/dist/framer-motion";
 
 import {
   Avatar,

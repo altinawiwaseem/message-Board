@@ -77,13 +77,3 @@ export const deleteMessage = async (req, res) => {
     return res.send(error.message);
   }
 };
-
-/* export const logout = async (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/");
-  });
-};
- */

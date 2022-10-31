@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import axios from "axios";
 import FileBase64 from "react-file-base64";
 import style from "./Message.module.css";
@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Blogs from "./List";
 import SendIcon from "@material-ui/icons/Send";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import { UserContext } from "../Context/UserContext";
 
 export default function Message() {
   const [image, setImage] = useState({ image: "" });
@@ -16,8 +17,9 @@ export default function Message() {
   const [edit, setEdit] = useState("");
   const [input, setInput] = useState("");
   const [val, setVal] = useState(0);
-  const valueRef = useRef("");
 
+  const valueRef = useRef("");
+  const { user } = useContext(UserContext);
   const handleChange = (e) => {
     setInput(e.target.value);
   };
@@ -132,9 +134,7 @@ export default function Message() {
                     message.deleted === false && (
                       <ul key={message._id} id={message._id}>
                         <Blogs
-                          isUser={
-                            localStorage.getItem("userId") === message.user._id
-                          }
+                          isUser={user._id === message.user._id}
                           item={message}
                           id={message._id}
                           handleUpdate={handleUpdate}
@@ -152,9 +152,7 @@ export default function Message() {
                     message.deleted === false && (
                       <ul key={message._id} id={message._id}>
                         <Blogs
-                          isUser={
-                            localStorage.getItem("userId") === message.user._id
-                          }
+                          isUser={user._id === message.user._id}
                           item={message}
                           id={message._id}
                           handleUpdate={handleUpdate}

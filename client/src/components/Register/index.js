@@ -1,14 +1,10 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-/* import { useDispatch } from "react-redux";
-import { authActions } from "../../store"; */
 import style from "./Register.module.css";
 
 export default function Register() {
   const navigate = useNavigate();
-  /* const dispatch = useDispatch(); */
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -42,7 +38,7 @@ export default function Register() {
           margin="auto"
           borderRadius={5}
           gap="1rem"
-          sx={{ background: "#f6f6f6", height: "" }}
+          sx={{ background: "#f6f6f6" }}
         >
           <Typography variant="h3" textAlign="center">
             Register
