@@ -48,11 +48,12 @@ export const getAllMessages = async (req, res) => {
 };
 
 export const updateMessage = async (req, res) => {
-  const { content, id } = req.body;
+  const { content, id, title } = req.body;
+
   try {
     const editedMessage = await Message.findByIdAndUpdate(
       id,
-      { content: content },
+      { content: content, title: title },
       { new: true }
     );
 
@@ -73,6 +74,42 @@ export const deleteMessage = async (req, res) => {
     });
 
     return res.status(200).json({ message: deleteMessage });
+  } catch (error) {
+    return res.send(error.message);
+  }
+};
+
+export const addComment = async (req, res) => {
+  const { comment, id, user } = req.body;
+
+  try {
+    const newComment = await Message.findByIdAndUpdate(
+      id,
+      { $push: { comments: { comment, user } } },
+      { new: true }
+    );
+
+    if (!newComment) return;
+
+    return res.status(200).json({ message: newComment });
+  } catch (error) {
+    return res.send(error.message);
+  }
+};
+
+export const deleteComment = async (req, res) => {
+  const { messageId, commentId } = req.body;
+  console.log(messageId);
+  console.log(commentId);
+  try {
+    const deleteComment = await Message.findByIdAndUpdate(messageId, {
+      $pull: {
+        comments: {
+          _id: commentId,
+        },
+      },
+    });
+    return res.status(200).json({ message: "comment deleted" });
   } catch (error) {
     return res.send(error.message);
   }

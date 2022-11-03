@@ -44,6 +44,7 @@ export default function Register() {
             Register
           </Typography>
           <TextField
+            label="First Name"
             className={style.input}
             placeholder="First name"
             type="text"
@@ -52,6 +53,7 @@ export default function Register() {
             required
           />
           <TextField
+            label="Last Name"
             className={style.input}
             placeholder="Last name"
             type="text"
@@ -60,6 +62,7 @@ export default function Register() {
             required
           />
           <TextField
+            label="Email"
             className={style.input}
             placeholder=" E-mail"
             type="email"
@@ -67,7 +70,9 @@ export default function Register() {
             name="email"
             required
           />
+
           <TextField
+            label="Password"
             className={style.input}
             placeholder="Password"
             type="password"

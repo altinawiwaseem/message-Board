@@ -7,7 +7,6 @@ const UserContext = createContext(null);
 const UserContextProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [user, setUser] = useState("");
-
   const navigate = useNavigate();
   const userData = async (formData) => {
     try {
@@ -56,6 +55,8 @@ const UserContextProvider = ({ children }) => {
   };
 
   const localStorageUser = () => {
+    if (localStorage.getItem("user") == "undefined") return;
+
     const user = JSON.parse(localStorage.getItem("user"));
     return setUser(user);
   };

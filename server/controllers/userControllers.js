@@ -79,13 +79,3 @@ export const logout = async (req, res, next) => {
     res.send(error);
   }
 };
-
-/* export const logout = async (req, res, next) => {
-  try {
-    res.clearCookie("jwt");
-    res.send("User Logged OUt");
-  } catch (error) {
-    res.send(error.message);
-  }
-};
- */

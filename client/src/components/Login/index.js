@@ -35,6 +35,7 @@ export default function Login() {
             {error}
           </Typography>
           <TextField
+            label="Email"
             className={style.input}
             placeholder=" E-mail"
             type="email"
@@ -43,6 +44,7 @@ export default function Login() {
             required
           />
           <TextField
+            label="Password"
             className={style.input}
             placeholder="Password"
             type="password"

@@ -30,10 +30,10 @@
   font-weight: bold;
 }
 .button:hover {
-  border: 2px white solid;
+  transform: scale(0.99);
 }
 .button:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 .button a {
   cursor: pointer;

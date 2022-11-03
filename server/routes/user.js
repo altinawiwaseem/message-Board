@@ -1,6 +1,4 @@
 import { Router } from "express";
-/* import passport from "passport"; */
-
 import {
   registerUser,
   loginUser,
@@ -8,8 +6,7 @@ import {
   logout,
 } from "../controllers/userControllers.js";
 const router = Router();
-/* router.use(passport.authenticate("jwt", { session: false }));
- */
+
 //http://localhost:5000/user/register
 router.post("/register", registerUser);
 

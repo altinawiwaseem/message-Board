@@ -9,25 +9,34 @@ const MessageSchema = new Schema({
   },
   title: {
     type: String,
-    /* required: [true, "the content should not be empty"], */
+    required: [true, "Title is required"],
   },
   content: {
     type: String,
-    required: [true, "the content should not be empty"],
+    required: [true, "The content should not be empty"],
   },
   image: {
     type: String,
   },
   dates: {
-    created: { type: Date, default: Date.now, last_edited: Date },
+    created: { type: Date, default: Date.now(), last_edited: Date },
   },
   category: {
     type: String,
     required: true,
     enum: ["sent", "delivered", "read"],
   },
-  comment: {
-    type: String,
+  comments: {
+    type: [
+      {
+        dates: {
+          created: { type: Date, default: Date.now(), last_edited: Date },
+        },
+        comment: String,
+        user: Object,
+        deleted: { type: Boolean, default: false },
+      },
+    ],
     created: Date.now,
   },
 

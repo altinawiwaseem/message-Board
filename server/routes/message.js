@@ -1,7 +1,9 @@
 import { Router } from "express";
 import passport from "passport";
 import {
+  addComment,
   createMessage,
+  deleteComment,
   deleteMessage,
   getAllMessages,
   getUserMessages,
@@ -25,5 +27,8 @@ export default router;
 //"http://localhost:5000/message/delete"
 router.patch("/delete", deleteMessage);
 
-//http://localhost:5000/message/logout
-/* router.get("/logout", logout); */
+//"http://localhost:5000/message/comment"
+router.patch("/comment", addComment);
+
+//"http://localhost:5000/message/deletecomment"
+router.patch("/deletecomment", deleteComment);
